@@ -1,4 +1,4 @@
-package model;
+package com.sagecodefellowship.codefellowship.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +14,7 @@ public class UserModel implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
     String username;
     String password;
     String firstName;
