@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -29,24 +28,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(siteUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    //TODO: Configure the security of our application via HttpSecurity
-    // This is where we will do the work of how users can access the site
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors().disable()
+    public void configure(HttpSecurity http) throws Exception{
+        http.cors().disable()
                 .csrf().disable()
-                // ------ Request section
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/signup").permitAll()
+                .antMatchers("/login", "/signup").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                // ----- Login section
                 .formLogin()
                 .loginPage("/login")
-                // ---- Logout section
+                .defaultSuccessUrl("/secret")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login");
     }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .cors().disable()
+//                .csrf().disable()
+//                // ------ Request section
+//                .authorizeRequests()
+//                .antMatchers("/", "/login", "/signup").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                // ----- Login section
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/secret")
+//                // ---- Logout section
+//                .and()
+//                .logout()
+//                .logoutSuccessUrl("/login");
+//    }
 }

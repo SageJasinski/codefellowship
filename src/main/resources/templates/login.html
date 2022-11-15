@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.tymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Landing</title>
@@ -17,16 +17,17 @@
         </fieldset>
     </form>
 
-    <form action="/signup" method="post">
-        <fieldset>
-            <h3>Sign Up</h3>
-            <label>Username</label>
-            <input type="text" name="username">
-            <label>Password</label>
-            <input type="text" name="password">
-            <input type="submit" value="Sign up">
-        </fieldset>
+ <a href="/signup">Sign up</a>
+<!--    <form action="/signup" method="post">-->
+<!--        <fieldset>-->
+<!--            <h3>Sign Up</h3>-->
+<!--            <label>Username</label>-->
+<!--            <input type="text" name="username">-->
+<!--            <label>Password</label>-->
+<!--            <input type="text" name="password">-->
+<!--            <input type="submit" value="Sign up">-->
+<!--        </fieldset>-->
+<!--    </form>-->
 
-    </form>
 </body>
 </html>
