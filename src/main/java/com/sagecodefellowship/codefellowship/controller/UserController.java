@@ -1,18 +1,17 @@
-package controller;
+package com.sagecodefellowship.codefellowship.controller;
 
-import model.UserModel;
+import com.sagecodefellowship.codefellowship.model.UserModel;
+import com.sagecodefellowship.codefellowship.repositories.UserInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
-import repositories.UserInterface;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @Controller
 public class UserController {
@@ -39,13 +38,10 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public RedirectView signUp(String password, String username) {
+    public RedirectView signUp(String password, String username, String firstname, String lastname, Date birthday) {
         String hashedPW = passwordEncoder.encode(password);
-        // create new user
-        UserModel newUser = new UserModel(username, hashedPW);
-        // save the user
+        UserModel newUser = new UserModel(username, hashedPW,firstname,lastname, birthday);
         userInterface.save(newUser);
-        // auto login -> httpServletRequest
         authWithHttpServletRequest(username, password);
         return new RedirectView("/");
     }
