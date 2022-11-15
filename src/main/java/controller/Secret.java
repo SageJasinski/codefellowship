@@ -26,6 +26,6 @@ public class Secret {
             m.addAttribute("secret", userModel.getSecret());
             return "secrets.html";
         }
-        return "main.html";
+        return "login.html";
     }
 }
