@@ -5,12 +5,15 @@ import com.sagecodefellowship.codefellowship.repositories.UserInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.Date;
 
 @Controller
@@ -38,12 +41,24 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public RedirectView signUp(String password, String username, String firstname, String lastname, Date birthday) {
+    public RedirectView signUp(String password, String username, String firstname, String lastname, Date birthday, String biography) {
         String hashedPW = passwordEncoder.encode(password);
-        UserModel newUser = new UserModel(username, hashedPW,firstname,lastname, birthday);
+        UserModel newUser = new UserModel(username, hashedPW,firstname,lastname, birthday, biography);
         userInterface.save(newUser);
         authWithHttpServletRequest(username, password);
         return new RedirectView("/");
+    }
+
+    @GetMapping("/others/{id}")
+    public String getOtherUsers(Model m, Principal p, @PathVariable Long id){
+        UserModel loggedUser = userInterface.findByUsername(p.getName());
+        m.addAttribute("loggedUser", loggedUser.getUsername());
+
+        UserModel viewingUser = userInterface.findById(id).orElseThrow();
+        m.addAttribute("viewedUserName", viewingUser.getUsername());
+        m.addAttribute("viewedUserId", viewingUser.getId());
+        m.addAttribute("viewedUserBio", viewingUser.getBio());
+        return "others";
     }
 
     public void authWithHttpServletRequest(String username, String password) {
