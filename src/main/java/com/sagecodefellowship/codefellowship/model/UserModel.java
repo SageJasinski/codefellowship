@@ -15,33 +15,39 @@ public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+
+
     String username;
     String password;
     String firstName;
     String lastName;
     Date dateOfBirth;
 
-    String secret;
+    String bio;
 
     protected UserModel() {
     }
 
-    public String getSecret() {
-        return secret;
+    public String getBio() {
+        return bio;
     }
 
-    public void setSecret(String secret) {
-        this.secret = secret;
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
-    public UserModel(String username, String password, String firstName, String lastName, Date dateOfBirth) {
+    public UserModel(String username, String password, String firstName, String lastName, Date dateOfBirth, String bio) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+        this.bio = bio;
     }
-
+    public Long getId() {
+        return id;
+    }
     public UserModel(String username, String password) {
         this.username = username;
         this.password = password;
