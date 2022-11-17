@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.tymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Other Fellows</title>
@@ -8,6 +8,14 @@
 <p th:text="${viewedUserName}"></p>
 <p th:text="${viewedUserBio}"></p>
 
+<h2>Followed users</h2>
+<h2>Users that follow</h2>
+
+<form th:action="${'/follow-user/' + viewedUserId}" th:method="PUT">
+    <input type="submit" value="Follow this person">
+</form>
+
 <a href="/secret">Back to Your Page</a>
+
 </body>
 </html>
