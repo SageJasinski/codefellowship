@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
@@ -58,7 +59,24 @@ public class UserController {
         m.addAttribute("viewedUserName", viewingUser.getUsername());
         m.addAttribute("viewedUserId", viewingUser.getId());
         m.addAttribute("viewedUserBio", viewingUser.getBio());
+        m.addAttribute("usersIfollow", viewingUser.getUsersIFollow());
+        m.addAttribute("usersWhofollowMe", viewingUser.getUsersWhoFollowThisUser());
         return "others";
+    }
+
+    @PutMapping("/follow-user/{id}")
+    public RedirectView followUser(Principal p, @PathVariable Long id){
+        UserModel userFollowing = userInterface.findById(id).orElseThrow(() -> new RuntimeException("Error retrieving user id: " + id));
+        UserModel currentUser = userInterface.findByUsername(p.getName());
+
+        if(currentUser.getUsername().equals(userFollowing.getUsername())){
+            throw new IllegalArgumentException("Can not follow yourself");
+        }
+
+        currentUser.getUsersIFollow().add(userFollowing);
+        userInterface.save(currentUser);
+
+        return new RedirectView("/others/" + id);
     }
 
     public void authWithHttpServletRequest(String username, String password) {
